@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,22 @@ using System.Threading.Tasks;
 
 namespace LootrConsole
 {
+    public class Drop
+    {
+        public string Branch { get; set; }
+        public int Depth { get; set; }
+        public float Luck { get; set; }
+        public int Stack { get; set; }
+
+        public Drop(string branch, int depth, float luck, int stack)
+        {
+            Branch = branch;
+            Depth = depth;
+            Luck = luck;
+            Stack = stack;
+        }
+    }
+
     public class Lootr
     {
 
@@ -14,6 +31,7 @@ namespace LootrConsole
         private List<Lootr> branchs = new List<Lootr>();
         private List<Object> nameModifiers = new List<Object>();
 
+        private Random r = new Random();
         public Lootr(string name)
         {
             var branchName = name;
@@ -52,7 +70,7 @@ namespace LootrConsole
             return this.getBranch(name, true);
         }
 
-        public Lootr getBranch(string name, bool create)
+        public Lootr getBranch(string name, bool create = false)
         {
             var path = this.clean(name).Split('/');
 
@@ -100,5 +118,59 @@ namespace LootrConsole
             return allItems;
         }
 
+        public Object randomPick(int allowedNesting, float threshold = 0.9f)
+        {
+            var pickedItems = new List<Object>();
+
+            if (r.NextDouble() < threshold && this.items.Count() > 0)
+            {
+                pickedItems.Add(this.items[r.Next(this.items.Count)]);
+            }
+
+            if (allowedNesting > 0)
+            {
+                foreach (var branch in this.branchs)
+                {
+                    var nestedChance = r.NextDouble();
+                    if (nestedChance <= threshold)
+                    {
+                        var others = branch.randomPick(
+                                                allowedNesting - 1, 
+                                                (float)(threshold - r.NextDouble() / allowedNesting));
+                        if (others != null)
+                        {
+                            pickedItems.Add(others);
+                        }
+                    }
+                }
+            }
+
+            return this.items.Count > 0 ? pickedItems[r.Next(pickedItems.Count)] : null;
+        }
+
+        public Object roll(string catalogPath, int nesting, float threshold = 0.9f)
+        {
+            var branch = this.getBranch(catalogPath);
+
+            return branch.randomPick(nesting, threshold);
+        }
+
+        public List<Object> loot(List<Drop> drops)
+        {
+            var reward = new List<Object>();
+
+            foreach (var drop in drops)
+            {
+                var item = this.roll(drop.Branch, drop.Depth, drop.Luck);
+                if (item != null)
+                {
+                    continue;
+                }
+
+                reward.Add(item);
+            }
+
+            return reward;
+        }
     }
 }
