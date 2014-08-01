@@ -26,12 +26,17 @@ namespace LootrConsole
     public class Lootr
     {
 
-        private string name;
-        private List<Object> items = new List<Object>();
-        private List<Lootr> branchs = new List<Lootr>();
-        private List<Object> nameModifiers = new List<Object>();
+        public string name;
+        public List<Object> items = new List<Object>();
+        public List<Lootr> branchs = new List<Lootr>();
+        public List<Object> nameModifiers = new List<Object>();
 
         private Random r = new Random();
+
+        /// <summary>
+        /// Get a new branch
+        /// </summary>
+        /// <param name="name">Name of that branch</param>
         public Lootr(string name)
         {
             var branchName = name;
@@ -45,14 +50,27 @@ namespace LootrConsole
 
         }
 
+        /// <summary>
+        /// Clean a path, trim left /characters
+        /// </summary>
+        /// <param name="name">Path to clean</param>
+        /// <returns>Path  cleaned</returns>
         private string clean(string name)
         {
+            if (name.StartsWith("/"))
+                name = name.TrimStart('/');
             return name.Trim();
         }
 
-        public Lootr add(Object item, string path)
+        /// <summary>
+        /// Add an item in current branch, or the nested branch specified
+        /// </summary>
+        /// <param name="item">Item to add</param>
+        /// <param name="path">Path to branch</param>
+        /// <returns>The current branch</returns>
+        public Lootr add(Object item, string path = "")
         {
-            if (path.Count() == 0)
+            if (path == "")
             {
                 this.items.Add(item);
             }
@@ -65,11 +83,22 @@ namespace LootrConsole
             return this;
         }
 
+        /// <summary>
+        /// Return or create a new branch under the current one
+        /// </summary>
+        /// <param name="name">Branch name</param>
+        /// <returns>The current branch</returns>
         public Lootr branch(string name)
         {
             return this.getBranch(name, true);
         }
 
+        /// <summary>
+        /// Return or create a new branch under the current one
+        /// </summary>
+        /// <param name="name">Branch name</param>
+        /// <param name="create">If true, and the specified branch does not exist, create one</param>
+        /// <returns>The current branch</returns>
         public Lootr getBranch(string name, bool create = false)
         {
             var path = this.clean(name).Split('/');
@@ -91,14 +120,13 @@ namespace LootrConsole
                 path = path.Skip(1).ToArray();
                 var newPath = string.Join("/", path);
 
-                if (this.branchs.Any(b => b.name == head))
+                if (this.name == head)
                 {
-                    return this.branchs.First(b => b.name == head).getBranch(newPath, create);
+                    return this.getBranch(newPath, create);
                 }
 
                 if (create)
                 {
-                    this.branchs.Add(new Lootr(head));
                     return this.branchs.First(b => b.name == head).getBranch(newPath, create);
                 }
             }
@@ -106,6 +134,10 @@ namespace LootrConsole
             return null;
         }
 
+        /// <summary>
+        /// Return all items in the current and nested branchs
+        /// </summary>
+        /// <returns>List of items</returns>
         public List<Object> getAllItems()
         {
             var allItems = new List<Object>(this.items);
@@ -118,6 +150,12 @@ namespace LootrConsole
             return allItems;
         }
 
+        /// <summary>
+        /// Randomly pick an item
+        /// </summary>
+        /// <param name="allowedNesting">Depth limit</param>
+        /// <param name="threshold">Chances (0-1) we go deeper</param>
+        /// <returns>Picked item</returns>
         public Object randomPick(int allowedNesting, float threshold = 0.9f)
         {
             var pickedItems = new List<Object>();
@@ -135,7 +173,7 @@ namespace LootrConsole
                     if (nestedChance <= threshold)
                     {
                         var others = branch.randomPick(
-                                                allowedNesting - 1, 
+                                                allowedNesting - 1,
                                                 (float)(threshold - r.NextDouble() / allowedNesting));
                         if (others != null)
                         {
@@ -148,6 +186,13 @@ namespace LootrConsole
             return this.items.Count > 0 ? pickedItems[r.Next(pickedItems.Count)] : null;
         }
 
+        /// <summary>
+        /// Randomly pick an item from the specified branch
+        /// </summary>
+        /// <param name="catalogPath">Branch to get an item from</param>
+        /// <param name="nesting">Depth limit</param>
+        /// <param name="threshold">Chances (0-1) we go deeper</param>
+        /// <returns>Picked item</returns>
         public Object roll(string catalogPath, int nesting, float threshold = 0.9f)
         {
             var branch = this.getBranch(catalogPath);
@@ -155,6 +200,11 @@ namespace LootrConsole
             return branch.randomPick(nesting, threshold);
         }
 
+        /// <summary>
+        /// Roll against a looting list
+        /// </summary>
+        /// <param name="drops">The looting list</param>
+        /// <returns>List of items</returns>
         public List<Object> loot(List<Drop> drops)
         {
             var reward = new List<Object>();
@@ -167,7 +217,15 @@ namespace LootrConsole
                     continue;
                 }
 
-                reward.Add(item);
+                var jsonItem = JsonConvert.SerializeObject(item);
+
+                for (int i = 0; i < drop.Stack;i++ )
+                {
+                    var clone = JsonConvert.DeserializeObject(jsonItem);
+
+                    reward.Add(clone);    
+                }
+
             }
 
             return reward;

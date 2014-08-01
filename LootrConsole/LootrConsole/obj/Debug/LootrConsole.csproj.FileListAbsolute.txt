@@ -1,0 +1,8 @@
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\LootrConsole.exe.config
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\LootrConsole.exe
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\LootrConsole.pdb
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\obj\Debug\LootrConsole.csprojResolveAssemblyReference.cache
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\obj\Debug\LootrConsole.exe
+c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\obj\Debug\LootrConsole.pdb
+C:\Users\Laurent\Documents\Visual Studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Laurent\Documents\Visual Studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.xml
