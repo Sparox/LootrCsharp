@@ -6,3 +6,11 @@ c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole
 c:\users\laurent\documents\visual studio 2013\Projects\LootrConsole\LootrConsole\obj\Debug\LootrConsole.pdb
 C:\Users\Laurent\Documents\Visual Studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Laurent\Documents\Visual Studio 2013\Projects\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.xml
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\bin\Debug\LootrConsole.exe.config
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\obj\Debug\LootrConsole.exe
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\obj\Debug\LootrConsole.pdb
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\bin\Debug\LootrConsole.exe
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\bin\Debug\LootrConsole.pdb
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.dll
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\bin\Debug\Newtonsoft.Json.xml
+I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrConsole\obj\Debug\LootrConsole.csprojResolveAssemblyReference.cache

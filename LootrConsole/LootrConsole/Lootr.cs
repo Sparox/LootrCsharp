@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LootrConsole
 {
@@ -14,7 +12,7 @@ namespace LootrConsole
         public float Luck { get; set; }
         public int Stack { get; set; }
 
-        public Drop(string branch, int depth, float luck, int stack)
+        public Drop(string branch, float luck, int stack, int depth = 0)
         {
             Branch = branch;
             Depth = depth;
@@ -25,7 +23,7 @@ namespace LootrConsole
 
     public class Lootr
     {
-
+        public const int INFINITY = -1;
         public string name;
         public List<Object> items = new List<Object>();
         public List<Lootr> branchs = new List<Lootr>();
@@ -42,7 +40,7 @@ namespace LootrConsole
             var branchName = name;
 
             branchName = this.clean(branchName);
-            if (name.IndexOf('/') > -1)
+            if (branchName.IndexOf('/') > -1)
             {
                 throw new Exception("Specified name should not contain a / separator");
             }
@@ -59,6 +57,8 @@ namespace LootrConsole
         {
             if (name.StartsWith("/"))
                 name = name.TrimStart('/');
+            if (name.EndsWith("/"))
+                name = name.TrimEnd('/');
             return name.Trim();
         }
 
@@ -156,7 +156,7 @@ namespace LootrConsole
         /// <param name="allowedNesting">Depth limit</param>
         /// <param name="threshold">Chances (0-1) we go deeper</param>
         /// <returns>Picked item</returns>
-        public Object randomPick(int allowedNesting, float threshold = 0.9f)
+        public Object randomPick(int allowedNesting = 0, float threshold = 1f)
         {
             var pickedItems = new List<Object>();
 
@@ -165,7 +165,7 @@ namespace LootrConsole
                 pickedItems.Add(this.items[r.Next(this.items.Count)]);
             }
 
-            if (allowedNesting > 0)
+            if (allowedNesting != 0)
             {
                 foreach (var branch in this.branchs)
                 {
@@ -182,8 +182,8 @@ namespace LootrConsole
                     }
                 }
             }
-
-            return this.items.Count > 0 ? pickedItems[r.Next(pickedItems.Count)] : null;
+            return this.items.Count > 0 && pickedItems.Count > 0 ? 
+                pickedItems[r.Next(pickedItems.Count)] : null;
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace LootrConsole
         /// <param name="nesting">Depth limit</param>
         /// <param name="threshold">Chances (0-1) we go deeper</param>
         /// <returns>Picked item</returns>
-        public Object roll(string catalogPath, int nesting, float threshold = 0.9f)
+        public Object roll(string catalogPath, int nesting = 0, float threshold = 1f)
         {
             var branch = this.getBranch(catalogPath);
 
@@ -212,7 +212,7 @@ namespace LootrConsole
             foreach (var drop in drops)
             {
                 var item = this.roll(drop.Branch, drop.Depth, drop.Luck);
-                if (item != null)
+                if (item == null)
                 {
                     continue;
                 }
@@ -221,7 +221,7 @@ namespace LootrConsole
 
                 for (int i = 0; i < drop.Stack;i++ )
                 {
-                    var clone = JsonConvert.DeserializeObject(jsonItem);
+                    var clone = JsonConvert.DeserializeObject(jsonItem, item.GetType());
 
                     reward.Add(clone);    
                 }
