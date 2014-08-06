@@ -1,9 +1,0 @@
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrUnitTests.dll
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrUnitTests.pdb
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrConsole.exe
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\Newtonsoft.Json.dll
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrConsole.pdb
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\Newtonsoft.Json.xml
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.csprojResolveAssemblyReference.cache
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.dll
-I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.pdb

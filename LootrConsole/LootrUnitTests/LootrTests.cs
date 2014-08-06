@@ -51,16 +51,16 @@ namespace LootrUnitTests
             {
                 var prefixedLootr = new Lootr("/notFaultyPath");
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message+"\nDoes not fail if /-prefixed named branch");
+                throw new Exception("\nDoes not fail if /-prefixed named branch");
             }
 
             try
             {
                 var suffixedLootr = new Lootr("notFaultyPath/");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new Exception("Does not fail if /-suffixed named branch");
             }
@@ -72,7 +72,7 @@ namespace LootrUnitTests
             {
                 var faultyLootr = new Lootr("/faulty/path");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new GoodException("Faulty named branch");
             }
@@ -90,10 +90,7 @@ namespace LootrUnitTests
             all = all.Concat(weapons).Concat(simplArmors).Concat(toughArmors).ToArray();
 
             //should loot a useless equipment (Stuff)
-            var uselessEquipment = loot.roll("/equipment");
-            Type uselessEquipmentType = uselessEquipment.GetType();
-            string uselessEquipmentName = uselessEquipmentType.GetProperty("Name").GetValue(uselessEquipment, null) as string;
-            Assert.AreEqual("Stuff", uselessEquipmentName);
+            Assert.AreEqual("Stuff", (loot.roll("/equipment") as Item).Name);
 
             //should loot any equipment
             var anyEquipment = loot.roll("/equipment", 3, 100);
@@ -123,7 +120,6 @@ namespace LootrUnitTests
             var anyArmor = loot.roll("/equipment/armor", 1);
             Type anyArmorType = anyArmor.GetType();
             string anyArmorName = anyArmorType.GetProperty("Name").GetValue(anyArmor, null) as string;
-            Console.WriteLine(anyArmorName);
             Assert.AreEqual(true, Array.IndexOf(simplArmors.Concat(toughArmors).ToArray(), anyArmorName) > -1);
         }
 
