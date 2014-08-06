@@ -7,3 +7,12 @@ I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\Newtons
 I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.csprojResolveAssemblyReference.cache
 I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.dll
 I:\Projets\Perso\Unity\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.pdb
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrUnitTests.dll
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrUnitTests.pdb
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrConsole.exe
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\LootrConsole.pdb
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.csprojResolveAssemblyReference.cache
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.dll
+C:\Users\Laurent\Documents\Private\Projects\LootrCsharp\LootrConsole\LootrUnitTests\obj\Debug\LootrUnitTests.pdb
