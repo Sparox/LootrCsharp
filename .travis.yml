@@ -2,8 +2,14 @@
 
 language: c
 
-install:
-  - sudo apt-get install mono-devel mono-gmcs nunit-console
+before_install:
+  - sudo apt-get update -qq > /dev/null
+  - sudo apt-get install -qq mono-devel mono-gmcs > /dev/null
+  - mozroots --import --sync
+  - mv -f LootrConsole/.nuget/NuGet.mono.targets LootrConsole/.nuget/NuGet.targets
+  - chmod +x lib/xunit/xunit.console.clr4.x86.exe
+  - export EnableNuGetPackageRestore=true
 script:
-  - xbuild LootrConsole/LootrConsole.sln
-  - nunit-console LootrConsole/LootrUnitTests/bin/Debug/LootrUnitTests.dll
+  - cd LootrConsole/
+  - xbuild LootrConsole.sln
+  - mono ../lib/xunit/xunit.console.clr4.x86.exe LootrUnitTests/bin/Debug/LootrUnitTests.dll
