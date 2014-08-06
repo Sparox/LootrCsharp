@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LootrConsole;
 using System.Linq;
 using System.Collections.Generic;
+using Xunit;
 
 namespace LootrUnitTests
 {
@@ -23,7 +23,6 @@ namespace LootrUnitTests
         public string Color { get; set; }
     }
 
-    [TestClass]
     public class LootrTests
     {
         private static Lootr GetStuff()
@@ -43,8 +42,7 @@ namespace LootrUnitTests
             return loot;
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(GoodException))]
+        [Fact]
         public void SetupAssertionsTest()
         {
             try
@@ -66,19 +64,21 @@ namespace LootrUnitTests
             }
 
             var loot = GetStuff();
-            Assert.AreEqual(7, loot.getAllItems().Count);
-
-            try
-            {
-                var faultyLootr = new Lootr("/faulty/path");
-            }
-            catch (Exception)
-            {
-                throw new GoodException("Faulty named branch");
-            }
+            Assert.Equal(7, loot.getAllItems().Count);
+            Assert.Throws<GoodException>(() =>
+                {
+                    try
+                    {
+                        var faultyLootr = new Lootr("/faulty/path");
+                    }
+                    catch (Exception)
+                    {
+                        throw new GoodException("Faulty named branch");
+                    }
+                });
         }
 
-        [TestMethod]
+        [Fact]
         public void RollinUsageTest()
         {
             var loot = GetStuff();
@@ -90,40 +90,40 @@ namespace LootrUnitTests
             all = all.Concat(weapons).Concat(simplArmors).Concat(toughArmors).ToArray();
 
             //should loot a useless equipment (Stuff)
-            Assert.AreEqual("Stuff", (loot.roll("/equipment") as Item).Name);
+            Assert.Equal("Stuff", (loot.roll("/equipment") as Item).Name);
 
             //should loot any equipment
             var anyEquipment = loot.roll("/equipment", 3, 100);
             Type anyEquipmentType = anyEquipment.GetType();
             string anyEquipmentName = anyEquipmentType.GetProperty("Name").GetValue(anyEquipment, null) as string;
-            Assert.AreEqual(true, Array.IndexOf(all, anyEquipmentName) > -1);
+            Assert.Equal(true, Array.IndexOf(all, anyEquipmentName) > -1);
 
             //should loot any equipment
             var anyEquipment2 = loot.roll("/equipment", Lootr.INFINITY,1f);
             Type anyEquipment2Type = anyEquipment2.GetType();
             string anyEquipment2Name = anyEquipment2Type.GetProperty("Name").GetValue(anyEquipment2, null) as string;
-            Assert.AreEqual(true, Array.IndexOf(all, anyEquipment2Name) > -1);
+            Assert.Equal(true, Array.IndexOf(all, anyEquipment2Name) > -1);
 
             //should loot a weapon
             var anyWeapon = loot.roll("/equipment/weapons", 3);
             Type anyWeaponType = anyWeapon.GetType();
             string anyWeaponName = anyWeaponType.GetProperty("Name").GetValue(anyWeapon, null) as string;
-            Assert.AreEqual(true, Array.IndexOf(weapons, anyWeaponName) > -1);
+            Assert.Equal(true, Array.IndexOf(weapons, anyWeaponName) > -1);
 
             //should loot a simple armor
             var anySimpleArmor = loot.roll("/equipment/armor");
             Type anySimpleArmorType = anySimpleArmor.GetType();
             string anySimpleArmorName = anySimpleArmorType.GetProperty("Name").GetValue(anySimpleArmor, null) as string;
-            Assert.AreEqual(true, Array.IndexOf(simplArmors, anySimpleArmorName) > -1);
+            Assert.Equal(true, Array.IndexOf(simplArmors, anySimpleArmorName) > -1);
 
             //should loot an armor
             var anyArmor = loot.roll("/equipment/armor", 1);
             Type anyArmorType = anyArmor.GetType();
             string anyArmorName = anyArmorType.GetProperty("Name").GetValue(anyArmor, null) as string;
-            Assert.AreEqual(true, Array.IndexOf(simplArmors.Concat(toughArmors).ToArray(), anyArmorName) > -1);
+            Assert.Equal(true, Array.IndexOf(simplArmors.Concat(toughArmors).ToArray(), anyArmorName) > -1);
         }
 
-        [TestMethod]
+        [Fact]
         public void RollinUsageWithLuck()
         {
             var loot = GetStuff();
@@ -134,10 +134,10 @@ namespace LootrUnitTests
                 new Drop("/equipment/weapons", 0.8f, 2)
             };
             var reward = loot.loot(drops);
-            Assert.AreEqual(true, reward.Count > 0);
+            Assert.Equal(true, reward.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void TenThousandRollStats()
         {
             var loot = GetStuff();
@@ -171,16 +171,16 @@ namespace LootrUnitTests
             }
 
             //At least there is one of each
-            Assert.AreEqual(true, allPresent);
+            Assert.Equal(true, allPresent);
             //Everytime I get grey stuff
-            Assert.AreEqual(true, overallRewards["Stuff"] >= rolls);
+            Assert.Equal(true, overallRewards["Stuff"] >= rolls);
 
             var weaponRatio = Math.Round(((overallRewards["Uzi"] + overallRewards["Pistol"]) / (double)rolls), 2);
             var armorRatio = Math.Round(((overallRewards["Plates"] + overallRewards["Leather"] + overallRewards["Military_vest"] + overallRewards["CSI_cap"]) / (double)rolls), 2);
 
-            Assert.AreEqual(true, weaponRatio >= 0.6 && weaponRatio <= 0.9);
+            Assert.Equal(true, weaponRatio >= 0.6 && weaponRatio <= 0.9);
             Console.WriteLine(weaponRatio * 100 + "% weapons");
-            Assert.AreEqual(true, armorRatio >= 0.3 && armorRatio <= 0.7);
+            Assert.Equal(true, armorRatio >= 0.3 && armorRatio <= 0.7);
             Console.WriteLine(armorRatio * 100 + "% armory");
 
         }
