@@ -93,34 +93,19 @@ namespace LootrUnitTests
             Assert.Equal("Stuff", (loot.roll("/equipment") as Item).Name);
 
             //should loot any equipment
-            var anyEquipment = loot.roll("/equipment", 3, 100);
-            Type anyEquipmentType = anyEquipment.GetType();
-            string anyEquipmentName = anyEquipmentType.GetProperty("Name").GetValue(anyEquipment, null) as string;
-            Assert.Equal(true, Array.IndexOf(all, anyEquipmentName) > -1);
+            Assert.Equal(true, Array.IndexOf(all, (loot.roll("/equipment") as Item).Name) > -1);
 
             //should loot any equipment
-            var anyEquipment2 = loot.roll("/equipment", Lootr.INFINITY,1f);
-            Type anyEquipment2Type = anyEquipment2.GetType();
-            string anyEquipment2Name = anyEquipment2Type.GetProperty("Name").GetValue(anyEquipment2, null) as string;
-            Assert.Equal(true, Array.IndexOf(all, anyEquipment2Name) > -1);
+            Assert.Equal(true, Array.IndexOf(all, (loot.roll("/equipment", 3, 100) as Item).Name) > -1);
 
             //should loot a weapon
-            var anyWeapon = loot.roll("/equipment/weapons", 3);
-            Type anyWeaponType = anyWeapon.GetType();
-            string anyWeaponName = anyWeaponType.GetProperty("Name").GetValue(anyWeapon, null) as string;
-            Assert.Equal(true, Array.IndexOf(weapons, anyWeaponName) > -1);
+            Assert.Equal(true, Array.IndexOf(weapons, (loot.roll("/equipment/weapons", 3) as Item).Name) > -1);
 
             //should loot a simple armor
-            var anySimpleArmor = loot.roll("/equipment/armor");
-            Type anySimpleArmorType = anySimpleArmor.GetType();
-            string anySimpleArmorName = anySimpleArmorType.GetProperty("Name").GetValue(anySimpleArmor, null) as string;
-            Assert.Equal(true, Array.IndexOf(simplArmors, anySimpleArmorName) > -1);
+            Assert.Equal(true, Array.IndexOf(simplArmors, (loot.roll("/equipment/armor") as Item).Name) > -1);
 
             //should loot an armor
-            var anyArmor = loot.roll("/equipment/armor", 1);
-            Type anyArmorType = anyArmor.GetType();
-            string anyArmorName = anyArmorType.GetProperty("Name").GetValue(anyArmor, null) as string;
-            Assert.Equal(true, Array.IndexOf(simplArmors.Concat(toughArmors).ToArray(), anyArmorName) > -1);
+            Assert.Equal(true, Array.IndexOf(simplArmors.Concat(toughArmors).ToArray(), (loot.roll("/equipment/armor", 1) as Item).Name) > -1);
         }
 
         [Fact]
